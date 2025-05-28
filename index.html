@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>For You 💖</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      background: linear-gradient(to bottom right, #ffe6f0, #fff);
+      color: #ff69b4;
+      text-align: center;
+      padding: 2rem;
+      overflow-x: hidden;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-top: 1rem;
+    }
+
+    .heart {
+      font-size: 3rem;
+      animation: heartbeat 1s infinite;
+      color: #ff69b4;
+    }
+
+    @keyframes heartbeat {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+    }
+
+    .msg-box {
+      background-color: #fff0f5;
+      padding: 1.5rem;
+      border-radius: 20px;
+      margin: 1.5rem auto;
+      max-width: 400px;
+      box-shadow: 0 0 10px rgba(255, 192, 203, 0.5);
+    }
+
+    button {
+      background-color: #ff69b4;
+      color: white;
+      border: none;
+      padding: 1rem 2rem;
+      font-size: 1rem;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: 0.3s;
+      margin-top: 1rem;
+    }
+
+    button:hover {
+      background-color: #ff85c1;
+    }
+
+    .response {
+      margin-top: 1.5rem;
+      font-size: 1.2rem;
+      opacity: 0;
+      transition: opacity 0.6s;
+    }
+
+    .show {
+      opacity: 1;
+    }
+
+    img {
+      max-width: 200px;
+      margin-top: 1rem;
+      border-radius: 20px;
+      box-shadow: 0 0 10px rgba(255, 192, 203, 0.5);
+    }
+
+    form {
+      margin-top: 2rem;
+    }
+
+    select {
+      padding: 0.5rem;
+      font-size: 1rem;
+      border-radius: 10px;
+      border: 2px solid #ffb6c1;
+      background-color: #fff;
+      color: #ff69b4;
+    }
+
+    .form-response {
+      margin-top: 1rem;
+      font-size: 1.2rem;
+      color: #e75480;
+    }
+
+    /* Overlay untuk popup play music */
+    #overlay {
+      position: fixed;
+      top:0; left:0; right:0; bottom:0;
+      background: rgba(255, 192, 203, 0.95);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      z-index: 9999;
+      font-size: 1.5rem;
+      color: #fff;
+      font-weight: bold;
+      text-shadow: 0 0 8px #ff1493;
+      user-select: none;
+    }
+
+    #overlay button {
+      font-size: 1.3rem;
+      padding: 1rem 2rem;
+      margin-top: 1rem;
+      background-color: #ff1493;
+      border-radius: 40px;
+      box-shadow: 0 0 12px #ff69b4;
+    }
+
+    #overlay button:hover {
+      background-color: #ff85c1;
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- Audio autoplay muted dulu -->
+  <audio id="bg-music" autoplay muted loop>
+    <source src="bensound-love.mp3" type="audio/mp3" />
+    Your browser does not support the audio element.
+  </audio>
+
+  <!-- Overlay popup suruh klik main lagu -->
+  <div id="overlay">
+    <div>Hi! Tap anywhere to play my special song for you 💖🎵</div>
+    <button onclick="startMusic()">Tap to Play 🎶</button>
+  </div>
+
+  <div class="heart">💖</div>
+  <h1>Hi <span style="color:#ff1493;">Crush</span>!</h1>
+  <p>You make my world brighter like cotton candy skies ☁️💗</p>
+
+  <img src="https://i.pinimg.com/originals/4b/4c/38/4b4c38fd7b885245e5100aa7e2050158.jpg" alt="Cute memory" />
+
+  <div class="msg-box">
+    <p>Would you like to see a sweet message? 🥺👉👈</p>
+    <button onclick="showMessage()">Yes please 💌</button>
+    <div class="response" id="message">You're the reason I smile at my phone like a weirdo 😳💞</div>
+  </div>
+
+  <form onsubmit="return handleForm()">
+    <h3>Do you like me too? 😳</h3>
+    <select id="reply">
+      <option value="">Choose 💭</option>
+      <option value="yes">Yes! I do 💘</option>
+      <option value="maybe">Maybe... 🙈</option>
+      <option value="no">No... 😢</option>
+    </select>
+    <br />
+    <button type="submit">Submit 💌</button>
+    <div class="form-response" id="formResponse"></div>
+  </form>
+
+  <script>
+    // Show sweet message
+    function showMessage() {
+      const msg = document.getElementById("message");
+      msg.classList.add("show");
+    }
+
+    // Handle form submission
+    function handleForm() {
+      const reply = document.getElementById("reply").value;
+      const responseDiv = document.getElementById("formResponse");
+
+      if (reply === "yes") {
+        responseDiv.textContent = "Awww 🥰 You just made my heart dance! 💃💕";
+      } else if (reply === "maybe") {
+        responseDiv.textContent = "Hehe it's okay~ I'll wait patiently 💫💖";
+      } else if (reply === "no") {
+        responseDiv.textContent = "It's okay... I still wish you all the happiness 🌸💔";
+      } else {
+        responseDiv.textContent = "Please pick something~ 🥺";
+      }
+
+      return false; // prevent form reload
+    }
+
+    // Start music & remove overlay on click
+    function startMusic() {
+      const overlay = document.getElementById("overlay");
+      const audio = document.getElementById("bg-music");
+
+      audio.muted = false;
+      audio.play();
+      overlay.style.display = "none";
+    }
+
+    // Optional: allow tap anywhere on page to start music too
+    document.addEventListener("click", () => {
+      const overlay = document.getElementById("overlay");
+      if (overlay.style.display !== "none") {
+        startMusic();
+      }
+    }, { once: true });
+  </script>
+</body>
+</html>
